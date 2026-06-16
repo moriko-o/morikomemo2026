@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>morikomemo</title>
+  <meta name="description" content="morikomemo は長文でも切らずにつぶやけるメモアプリです。">
+  <link rel="icon" href="/favicon.ico">
+  <style>
+    :root {
+      --red: #eb6169;
+      --dark-red: #de5f66;
+      --white: #ffffff;
+      --pale-gray: #e3e3e3;
+      --gray: #555555;
+      --yellow: #fff600;
+      --aqua: #1499a3;
+      --dark-aqua: #148d96;
+      --offwhite: #f5f4e4;
+      --ivory: #f0efe0;
+      --pale-ivoyr: #eeeddf;
+      --dark-ivory: #c5c4b4;
+      --beige: #8c8b79;
+      --max-width: 1000px;
+      --break-point: 767px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--offwhite);
+      font-family: "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+      font-size: 16px;
+      line-height: 1.8;
+      font-weight: normal;
+      color: var(--gray);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    a {
+      color: var(--red);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .wrapper {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .header {
+      background-color: var(--yellow);
+      height: 60px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .header__inner {
+      max-width: var(--max-width);
+      height: 60px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .header__logo {
+      display: block;
+      width: 230px;
+      height: 50px;
+    }
+
+    .header__menu-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 14px;
+    }
+
+    .header__menu-right a {
+      color: #333;
+    }
+
+    .home-head {
+      background-color: var(--yellow);
+      padding: 34px 20px 20px;
+    }
+
+    .heme-head__main-pict {
+      max-width: 400px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .heme-head__title-pict {
+      display: block;
+      width: 100%;
+    }
+
+    .home-subtitle {
+      margin: 16px 0 0;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .button-login-wrapper {
+      max-width: 400px;
+      margin: 20px auto 0;
+      padding: 0 10px;
+    }
+
+    .button-login {
+      display: block;
+      width: 100%;
+      height: 70px;
+      background-color: var(--red);
+      border: 1px solid var(--dark-red);
+      border-radius: 6px;
+      text-align: center;
+      color: var(--white);
+      position: relative;
+      line-height: 70px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+      box-shadow: 0 2px 0 rgba(0, 0, 0, 0.04);
+    }
+
+    .button-login:hover {
+      background-color: #f16b73;
+      text-decoration: none;
+    }
+
+    .about {
+      margin: 0 30px;
+      padding-bottom: 20px;
+    }
+
+    .about__title {
+      margin: 42px auto;
+      font-size: 140%;
+      font-weight: bold;
+      text-align: center;
+      color: var(--gray);
+    }
+
+    .about__section {
+      margin-bottom: 28px;
+    }
+
+    .about__heading {
+      margin-bottom: 10px;
+      color: var(--aqua);
+      font-size: 110%;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .about__heading--icon {
+      width: 22px;
+      height: 22px;
+      display: inline-block;
+      flex: none;
+    }
+
+    .about__text,
+    .about-p {
+      margin-left: 44px;
+      margin-bottom: 16px;
+      color: var(--gray);
+    }
+
+    .memos-list__contener {
+      margin: 30px 20px;
+    }
+
+    .memos-list__box {
+      background-color: var(--ivory);
+      border: var(--pale-ivoyr) 2px solid;
+      border-radius: 6px;
+      padding: 16px;
+      color: var(--gray);
+    }
+
+    .footer {
+      background-color: var(--dark-ivory);
+      padding: 14px 0;
+      text-align: center;
+      font-size: 80%;
+      margin-top: 24px;
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 8px;
+    }
+
+    .footer-links__link {
+      display: inline-block;
+    }
+
+    .footer-links__link:after {
+      content: " |";
+    }
+
+    .footer-links__link:last-child:after {
+      content: none;
+    }
+
+    .footer-copyright {
+      color: var(--white);
+      font-size: 90%;
+    }
+
+    .gray-link {
+      color: var(--gray);
+    }
+
+    .white-link {
+      color: var(--white);
+    }
+
+    .note {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 8px 12px;
+      background: rgba(20, 153, 163, 0.08);
+      border: 1px solid rgba(20, 153, 163, 0.2);
+      border-radius: 999px;
+      color: var(--aqua);
+      font-size: 13px;
+    }
+
+    @media screen and (max-width: 767px) {
+      body {
+        font-size: 14px;
+      }
+
+      .header__inner {
+        padding: 0 12px;
+      }
+
+      .home-head {
+        padding: 22px 12px 16px;
+      }
+
+      .header__logo {
+        width: 180px;
+        height: auto;
+      }
+
+      .heme-head__title-pict {
+        width: 100%;
+      }
+
+      .button-login {
+        height: 60px;
+        line-height: 60px;
+        font-size: 15px;
+      }
+
+      .about {
+        margin: 0 10px;
+      }
+
+      .about__title {
+        margin: 20px auto;
+        text-align: left;
+        font-size: 120%;
+      }
+
+      .about__text,
+      .about-p {
+        margin-left: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header__inner">
+      <a href="#top" aria-label="morikomemo">
+        <img src="/images/header_logo.png" alt="morikomemo" class="header__logo">
+      </a>
+      <nav class="header__menu-right" aria-label="page links">
+        <a href="#about">About</a>
+        <a href="https://github.com/moritamoriko/morikomemo" target="_blank" rel="noreferrer">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="home-head" id="top">
+      <div class="heme-head__main-pict">
+        <img src="/images/home_title.png" alt="morikomemo" class="heme-head__title-pict">
+        <p class="home-subtitle">140文字以上のつぶやきをURLでTwitterにシェアできるwebアプリ。</p>
+      </div>
+      <div class="button-login-wrapper">
+        <a href="#about" class="button-login">Twitterアカウントでログイン</a>
+      </div>
+    </section>
+
+    <section class="about" id="about">
+      <div class="wrapper">
+        <h2 class="about__title">morikomemoは長文でも切らずにつぶやけるTwitterクライアントです。</h2>
+
+        <div class="about__section">
+          <h3 class="about__heading"><img src="/images/icon_unko.png" alt="" class="about__heading--icon">morikomemoとは？</h3>
+          <p class="about__text">
+            morikomemo（もりこめも）は、140文字しかつぶやけないTwitterでそれ以上のつぶやきを残したい時に便利です。
+            また、Twitterにつぶやかないメモは自分以外に公開されないようになっているので、プライベートなオンラインメモ帳としても使用する事ができます。
+          </p>
+        </div>
+
+        <div class="about__section">
+          <h3 class="about__heading"><img src="/images/icon_unko.png" alt="" class="about__heading--icon">作った人</h3>
+          <p class="about__text">
+            moriko（<a href="https://twitter.com/moriko_o/" target="_blank" rel="noreferrer">@moriko_o</a>）
+            <br>
+            morikomemo
+            <a href="https://github.com/moritamoriko/morikomemo" target="_blank" rel="noreferrer">Githubリポジトリ</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrapper">
+      <h2 class="about__title">Thank you for Rails Girls Tokyo, More! &amp; P4D</h2>
+      <div class="memos-list__contener">
+        <div class="memos-list__box">
+          <p class="about-p">
+            このwebアプリは、Ruby on Rails で作成されています。
+            プログラミング経験がほとんど無い私ですが、Rails Girls Tokyo, More! と、P4D（P4D デザイナー向けプログラム部）という勉強会に参加し、たくさんのエンジニアさんにご協力いただいて作成しました。
+          </p>
+          <p class="about-p">
+            morikomemo は、まだまだ機能的に至らない点などありますが、今後もちょっとづつ使い勝手が良くなるように試行錯誤していきたいと思います。
+          </p>
+          <p class="about-p">
+            また、新しいアプリの開発にも取り組んでいくつもりですので、引き続きよろしくお願いいたします。どうもありがとうございました！
+          </p>
+          <p class="about-p">
+            <a href="http://prog4designer.github.io/" target="_blank" rel="noreferrer">P4D（デザイナー向けプログラム部）</a>
+            <br>
+            <a href="http://railsgirls.jp/" target="_blank" rel="noreferrer">Rails Girls</a>
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrapper">
+      <ul class="footer-links">
+        <li class="footer-links__link"><a href="#about" class="gray-link">Special Thanks</a></li>
+        <li class="footer-links__link"><a href="http://moritamoriko.org" target="_blank" rel="noreferrer" class="gray-link">blog</a></li>
+      </ul>
+      <small class="footer-copyright">
+        Copyright©
+        <a href="https://twitter.com/moriko_o/" target="_blank" rel="noreferrer" class="white-link">@moriko_o</a>
+        2014 All Rights Reserved.
+      </small>
+    </div>
+  </footer>
+</body>
+</html>

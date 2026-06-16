@@ -1,3 +1,1 @@
-RailsConfig.setup do |config|
-  config.const_name = "Settings"
-end
+# RailsConfig is disabled for the static local preview.
